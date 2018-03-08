@@ -10,9 +10,9 @@ class ChargesController < ApplicationController
     customer = StripeTool.create_customer(email: params[:stripeEmail], 
                                           stripe_token: params[:stripeToken])
 
-    charge = StripeTool.create_charge(customer_id: customer.id, 
+    charge = StripeTool.create_charge(customer_id: customer.id,
                                       amount: @amount,
-                                      description: 'Rails Stripe customer')
+                                      description: @description)
 
   rescue Stripe::CardError => e
     flash[:error] = e.message
@@ -23,5 +23,9 @@ class ChargesController < ApplicationController
 
   def amount_to_be_charged
     @amount = 500
+  end
+
+  def description
+    @description = "Some amazing product"
   end
 end
